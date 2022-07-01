@@ -3,7 +3,7 @@ def create_data_lake():
     os.mkdir('./data_lake/')
     parent_dir = 'data_lake/'
     carpetas = ['landing', 'raw', 'cleansed', 'business']
-    [os.mkdir(os.path.join(parent_dir, c)) for c in carpetas]
+    [os.mkdir(os.path.join(parent_dir, )) for c in carpetas]
     parent_dir = 'data_lake/business/'
     carpetas = ['reports', 'features', 'forecasts']
 

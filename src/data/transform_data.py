@@ -5,7 +5,7 @@ def Sys_Line(year, A_Type):
 
 
  ## Definición funcion 2
-def loading(DLine_01, DHead_01):
+def loadiaang(DLine_01, DHead_01):
     import pandas as pd
     Dat_01 = pd.read_excel(DLine_01, header=DHead_01)
     Dat_01 = Dat_01.iloc[:, 0:25]

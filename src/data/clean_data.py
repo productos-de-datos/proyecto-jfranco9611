@@ -1,8 +1,5 @@
 ## Definición funcion 1
 
-    
-    path_file = glob.glob(r'data_lake/raw/*.csv')
-    data_01 = []
 
     for filename in path_file:
         df = pd.read_csv(filename, index_col=None, header=0)
