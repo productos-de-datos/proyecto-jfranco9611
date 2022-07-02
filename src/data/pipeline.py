@@ -1,80 +1,72 @@
 import luigi
 from luigi import Task, LocalTarget
+import os
+import pandas as pd
+from create_data_lake import create_data_lake
+from ingest_data import ingest_data
+from transform_data import transform_data
+from clean_data import clean_data
+from compute_monthly_prices import compute_monthly_prices
+from compute_daily_prices import compute_daily_prices
 
-from src.data.transform_data import transform_data
-
-
-class D_Ingest(Task):
-    from ingest_data import ingest_data
-
+class Ingest_Transform_Clean_Data(Task):
     def output(self):
-        return LocalTarget('data_lake/landing/arc.csv')
+        return LocalTarget("data_lake/cleansed/precios-horarios.csv")
 
     def run(self):
-        with self.output().open('w') as files:
+        #os.system("rm -rf data_lake")
+        try:
+            #create_data_lake()
+            #print("-----------Create Date Lake---------------")
             ingest_data()
-
-
-class D_Transform(Task):
-    from transform_data import transform_data
-
-    def requires(self):
-        return D_Ingest()
-
-    def output(self):
-        return LocalTarget('data_lake/raw/arc.txt')
-
-    def run(self):
-        with self.output().open('w') as files:
+            print("-----------Data Ingest Finished---------------")
             transform_data()
-
-
-class D_Clear(Task):
-    from clean_data import clean_data
-
-    def requires(self):
-        return D_Transform()
-
-    def output(self):
-        return LocalTarget('data_lake/cleansed/arc.txt')
-
-    def run(self):
-        with self.output().open('w') as files:
+            print("-----------Data Transform Finished------------")
             clean_data()
+            print("-----------Data clean Finished----------------")
+        except Exception as e:
+            print(e)
+            print("Data Lake already exist")
 
 
-class DPrice_Daily(Task):
-    from compute_daily_prices import compute_daily_prices
-
-    def requires(self):
-        return D_Clear()
+class ComputeDay(Task):
+    def requires (self):
+        return Ingest_Transform_Clean_Data()
 
     def output(self):
-        return LocalTarget('data_lake/business/arc.txt')
+        return LocalTarget('data_lake/business/precios-diarios.csv')
 
     def run(self):
-        with self.output().open('w') as files:
+        try:
             compute_daily_prices()
+            print("-----------Compute Daily Prices Finished-------")
+        except Exception as e:
+            print(e)
 
 
-class DPrice_Montly(Task):
-    from compute_monthly_prices import compute_monthly_prices
-
+class ComputeMonth(Task):
     def requires(self):
-        return DPrice_Daily()
+        return Ingest_Transform_Clean_Data()
 
     def output(self):
-        return LocalTarget('data_lake/business/arc.txt')
+        return LocalTarget('data_lake/business/precios-mensuales.csv')
 
     def run(self):
-        with self.output().open('w') as files:
+        try:
             compute_monthly_prices()
+            print("-----------Compute Monthly Prices Finished------")
+        except Exception as e:
+            print(e)
 
+class PipeComputePrices(Task):
 
-if __name__ == '__main__':
-    luigi.run(["DPrice_Montly", "--local-scheduler"])
+    def requires(self):
+        return [
+            ComputeDay(),
+            ComputeMonth(),
+        ]
 
 if __name__ == "__main__":
     import doctest
-
+    luigi.run(["PipeComputePrices", "--local-scheduler"])
     doctest.testmod()
