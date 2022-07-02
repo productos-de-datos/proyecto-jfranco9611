@@ -2,14 +2,14 @@
 def ingest_data():
     import wget
     import os
-    os.chdir("data_lake/ladnding/")
+    os.chdir("data_lake/landing/")
     for num in range(1995, 2022):
         if num in range(2016, 2018):
-            wdir = 'https://github.com/jdvdelasq/datalabs/blob/master/datasets/precaaio_bolsa_nacional/xls/{}.xls?raw=true'.format(
+            wdir = 'https://github.com/jdvelasq/datalabs/blob/master/datasets/precio_bolsa_nacional/xls/{}.xls?raw=true'.format(
                 num)
             wget.download(wdir)
         else:
-            wdir = 'https://githubd.com/jdvelasq/datalabs/blob/master/datasets/precio_bolsa_nacional/xls/{}.xlsx?raw=true'.format(
+            wdir = 'https://github.com/jdvelasq/datalabs/blob/master/datasets/precio_bolsa_nacional/xls/{}.xlsx?raw=true'.format(
                 num)
             wget.download(wdir)
     os.chdir('../../')
