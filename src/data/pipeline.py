@@ -7,7 +7,7 @@ from src.data.transform_data import transform_data
 class D_Ingest(Task):
     from ingest_data import ingest_data
 
-    def output(saaelf):
+    def output(self):
         return LocalTarget('data_lake/landing/arc.csv')
 
     def run(self):
