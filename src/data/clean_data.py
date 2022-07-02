@@ -1,75 +1,19 @@
-## Definición funcion 1
-def loading():
+def clean_data()
     import pandas as pd
-    import glob
-    
-    path_file = glob.glob(r'data_lake/raw/*.csv')
-    data_01 = []
+    df_fin = pd.DataFrame(columns=['Fecha', 'hora', 'precio'])
+    for i in range(1997, 2022):
+        file_ = 'data_lake/raw/' + str(i) + '.csv'
+        df_ini = pd.read_csv(file_)
+        df_melt = pd.melt(df_ini, id_vars=['Fecha'], value_vars=df_ini.columns[2:], var_name='hora',
+                          value_name='precio')
+        df_fin = pd.concat([df_fin, df_melt], axis=0)
+        print("clean and concat", file_)
+    df_fin.columns = ['fecha', 'hora', 'precio']
+    df_fin.to_csv('data_lake/cleansed/precios-horarios.csv', sep=',', encoding='utf-8', index=False)
 
-    for filename in path_file:
-        df = pd.read_csv(filename, index_col=None, header=0)
-        data_01.append(df)
-    return data_01
-
-
-## Definición funcion 2
-def reading(data_01):
-    import pandas as pd
-    data_02 = pd.concat(data_01, axis=0, ignore_index=True)
-    data_02 = data_02[data_02["Fecha"].notnull()]
-    return data_02
-
-
-## Definición funcion 3
-def transform(data_02):
-    import pandas as pd
-    dat01 = read_file.iloc[:, 0]  
-
-    data_03 = []
-    pr1 = 0
-    pr2 = 0
-
-    for x1 in dat01:
-        for x2 in range(0, 24):
-            pr1 = (read_file.iloc[pr2, (x2+1)])
-            data_03.append([x1, x2, pr1])
-        pr2 += 1
-
-    return data_03
-    
-    
- ## Definición funcion 4
- def consolid(data_03):
-    import pandas as pd
-    data_04 = pd.DataFrame(
-        data_03, columns=["date", "hour", "price"])
-    data_04 = data_04[data_04["price"].notnull()]
-    return data_04
-    
-    
- ## Definición funcion 5
- def Final(data_04):
-    data_04.to_csv("data_lake/cleansed/Data_Prices.csv",
-                         index=None, header=True)
-
-## Se agrupa la base
-def clean_data():
-    data_01 = loading()
-    data_02 = reading(data_01)
-    data_03 = transform(data_02)
-    data_04 = consolid(data_03)
-    Final(data_04)
-
-## Se crea el test
-def test_data_01():
-    data_01 = loading()
-    data_02 = reading(data_01)
-    data_03 = transform(data_02)
-    assert list(consolid(data_03).columns.values) == [
-        'date', 'hour', 'price']
 
 if __name__ == "__main__":
     import doctest
 
-    doctest.testmod()
     clean_data()
+    doctest.testmod()
