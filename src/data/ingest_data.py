@@ -1,25 +1,20 @@
-
 def ingest_data():
-    import wget
-    import os
-    os.chdir("data_lake/landing/")
-    for num in range(1995, 2022):
-        if num in range(2016, 2018):
-            wdir = 'https://github.com/jdvelasq/datalabs/blob/master/datasets/precio_bolsa_nacional/xls/{}.xls?raw=true'.format(
-                num)
-            wget.download(wdir)
-        else:
-            wdir = 'https://github.com/jdvelasq/datalabs/blob/master/datasets/precio_bolsa_nacional/xls/{}.xlsx?raw=true'.format(
-                num)
-            wget.download(wdir)
-    os.chdir('../../')
+    import urllib.request
+    for i in range(1995, 2022):
+        try:
+            url = 'https://github.com/jdvelasq/datalabs/raw/master/datasets/precio_bolsa_nacional/xls/' + str(i) + '.xlsx'
+            file_ = 'data_lake/landing/' + str(i) + '.xlsx'
+            print(url, file_)
+            urllib.request.urlretrieve(url, file_)
+        except:
+            url = 'https://github.com/jdvelasq/datalabs/raw/master/datasets/precio_bolsa_nacional/xls/' + str(i) + '.xls'
+            file_ = 'data_lake/landing/' + str(i) + '.xls'
+            print(url, file_)
+            urllib.request.urlretrieve(url, file_)
+            print("An exception occurred")
 
-def test_ruta_origen():
-    import os
-    assert set(os.listdir()) - set(['.git', '.github', '.gitignore', '.vscode', 'data_lake', 'grader.py', 'Makefile', 'README.md', 'src']) == set()
 
 if __name__ == "__main__":
     import doctest
-
-    doctest.testmod()
     ingest_data()
+    doctest.testmod()
