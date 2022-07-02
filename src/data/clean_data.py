@@ -1,10 +1,3 @@
-## Definición funcion 1
-
-
-    for filename in path_file:
-        df = pd.read_csv(filename, index_col=None, header=0)
-        data_01.append(df)
-    return data_01
 
 
 ## Definición funcion 2
@@ -17,7 +10,12 @@ def reading(data_01):
 
 ## Definición funcion 3
 def transform(data_02):
+    import pandas as pd
+    dat01 = read_file.iloc[:, 0]  
 
+    data_03 = []
+    pr1 = 0
+    pr2 = 0
 
     for x1 in dat01:
         for x2 in range(0, 24):
