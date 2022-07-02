@@ -5,16 +5,14 @@ def Sys_Line(year, A_Type):
 
 
  ## Definición funcion 2
-def loadiaang(DLine_01, DHead_01):
+def loading(DLine_01, DHead_01):
     import pandas as pd
     Dat_01 = pd.read_excel(DLine_01, header=DHead_01)
     Dat_01 = Dat_01.iloc[:, 0:25]
+    Dat_01.columns = ['date', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                         '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
     return Dat_01
 
-
- ## Definición funcion 3
-def Final(Dat_01, year):
-    Dat_01.to_csv("data_lake/raw/{}.csv".format(year), index=None)
 
 
  ## Definición principal
