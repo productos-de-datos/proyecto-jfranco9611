@@ -14,6 +14,10 @@ def loading(DLine_01, DHead_01):
     return Dat_01
 
 
+ ## Definición funcion 3
+def Final(Dat_01, year):
+    Dat_01.to_csv("data_lake/raw/{}.csv".format(year), index=None)
+
 
  ## Definición principal
 def transform_data():
