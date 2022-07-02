@@ -4,7 +4,7 @@ def compute_monthly_prices():
                      index_col=None, header=0)
     df["date"] = pd.to_datetime(df["date"])
     df['YMonth'] = ((df['date'].dt.year).astype(int)).astype(
-        str) + "-" + ((df[].dt.month).astype(int)).astype(str)
+        str) + "-" + ((df['date'].dt.month).astype(int)).astype(str)
 
 
     Dagg_01 = data_D.groupby("YMonth").max({"day": "day"})
