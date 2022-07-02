@@ -1,7 +1,7 @@
 
 
 ## Definición funcion 2
-def reading(data_01):
+def reading(data_):
     import pandas as pd
     data_02 = pd.concat(data_01, axis=0, ignore_index=True)
     data_02 = data_02[data_02["Fecha"].notnull()]
@@ -9,7 +9,7 @@ def reading(data_01):
 
 
 ## Definición funcion 3
-def transform(data_02):
+def transform(data_):
     import pandas as pd
     dat01 = read_file.iloc[:, 0]  
 
@@ -27,7 +27,7 @@ def transform(data_02):
     
     
  ## Definición funcion 4
- def consolid(data_03):
+ def consolid(data3):
     import pandas as pd
     data_04 = pd.DataFrame(
         data_03, columns=["date", "hour", "price"])
