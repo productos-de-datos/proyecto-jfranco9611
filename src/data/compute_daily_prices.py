@@ -7,7 +7,7 @@ def compute_daily_prices():
     compute_daily_prices = df.groupby("date").mean({"price": "price"})
     compute_daily_prices.reset_index(inplace=True)
     compute_daily_prices.to_csv(
-        "data_lake/", index=No, header=F)
+        "data_lake/business/Data_Prices.csv", index=None, header=True)
 
 
 

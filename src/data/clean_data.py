@@ -1,7 +1,19 @@
+## Definición funcion 1
+def loading():
+    import pandas as pd
+    import glob
+    
+    path_file = glob.glob(r'data_lake/raw/*.csv')
+    data_01 = []
+
+    for filename in path_file:
+        df = pd.read_csv(filename, index_col=None, header=0)
+        data_01.append(df)
+    return data_01
 
 
 ## Definición funcion 2
-def reading(data_):
+def reading(data_01):
     import pandas as pd
     data_02 = pd.concat(data_01, axis=0, ignore_index=True)
     data_02 = data_02[data_02["Fecha"].notnull()]
@@ -9,7 +21,7 @@ def reading(data_):
 
 
 ## Definición funcion 3
-def transform(data_):
+def transform(data_02):
     import pandas as pd
     dat01 = read_file.iloc[:, 0]  
 
@@ -27,7 +39,7 @@ def transform(data_):
     
     
  ## Definición funcion 4
- def consolid(data3):
+ def consolid(data_03):
     import pandas as pd
     data_04 = pd.DataFrame(
         data_03, columns=["date", "hour", "price"])
