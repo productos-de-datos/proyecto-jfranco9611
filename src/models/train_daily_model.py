@@ -1,4 +1,16 @@
+## Este documento realiza el entrenamiento del modelo y busca el mejor modelo posible
+## dada el r2. Como se comentó se basa en un modelo de regresión dada la info presentada
+## para su edición cambiar el repositorio df
+##
+
 def train_daily_model():
+    """Entrena el modelo de pronóstico de precios diarios.
+
+    Con las features entrene el modelo de proóstico de precios diarios y
+    salvelo en models/precios-diarios.pkl
+
+
+    """
     import pandas as pd
     from sklearn.model_selection import train_test_split
     from sklearn import linear_model
@@ -18,7 +30,8 @@ def train_daily_model():
     model = regr.fit(X_train, y_train)
     pickle.dump(model, open("src/models/precios-diarios.pkl", "wb"))
 
-
+##
+##
 
 if __name__ == "__main__":
     import doctest
