@@ -1,3 +1,22 @@
+## Este documento contiene el pipeline que enlaza todos los archivos para la modificación de la data
+## este pipeline esta creado en luigi para su facilidad
+## el paso a paso más detallado lo encontrará en el siguiente comentario
+
+
+
+"""
+Construya un pipeline de Luigi que:
+
+* Importe los datos xls
+* Transforme los datos xls a csv
+* Cree la tabla unica de precios horarios.
+* Calcule los precios promedios diarios
+* Calcule los precios promedios mensuales
+
+En luigi llame las funciones que ya creo.
+
+
+"""
 import luigi
 from luigi import Task, LocalTarget
 import os
